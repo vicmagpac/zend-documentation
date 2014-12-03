@@ -13,7 +13,7 @@ class AlbumTable
         $this->tableGateway = $tableGateway;
     }
 
-    public function fecthAll()
+    public function fetchAll()
     {
         $resultSet = $this->tableGateway->select();
         return $resultSet;
@@ -27,5 +27,32 @@ class AlbumTable
         if (!$row) {
             throw new \Exception("Could not find row $id");
         }
+
+        return $row;
+    }
+
+    public function saveAlbum(Album $album)
+    {
+        $data = array(
+            'artista'   => $album->artista,
+            'titulo'    => $album->titulo
+        );
+
+        $id = (int) $album->id;
+
+        if ($id == 0) {
+            $this->tableGateway->insert($data);
+        } else {
+            if ($this->getAlbum($id)) {
+                $this->tableGateway->update($data, array('id' => $id));
+            } else {
+                throw new \Exception('Album id does not existe.');
+            }
+        }
+    }
+
+    public function deleteAlbum($id)
+    {
+        $this->tableGateway->delete(array('id' => (int) $id));
     }
 }
