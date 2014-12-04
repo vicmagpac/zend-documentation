@@ -1,7 +1,27 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: victor
- * Date: 02/12/14
- * Time: 16:58
- */ 
+
+$titulo = 'Adicionando um novo album';
+$this->headTitle($titulo);
+
+?>
+
+<h1><?php echo $this->escapeHtml($titulo); ?></h1>
+
+<?php
+    $form->setAttribute('action', $this->url('album', array('action' => 'add')));
+    $form->prepare();
+
+    echo $this->form()->openTag($form);
+
+    /*
+        echo $this->formHidden($form->get('id'));
+        echo $this->formRow($form->get('titulo'));
+        echo $this->formRow($form->get('artista'));
+        echo $this->formSubmit($form->get('submit'));
+     */
+
+    // OR
+    echo $this->formCollection($form);
+
+    echo $this->form()->closeTag();
+?>
